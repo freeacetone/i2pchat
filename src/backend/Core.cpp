@@ -32,7 +32,7 @@
 #include <QStandardPaths>
 
 CCore::CCore(QString configPath)
-{	
+{
     mConfigPath=configPath;
 
     mDebugMessageHandler= new CDebugMessageManager("General", configPath);
@@ -330,13 +330,13 @@ void CCore::slotNamingReplyRecived(const SAM_Message_Types::RESULT result,QStrin
             theUser->setReplaceB32WithB64(Value);
         }
     }else if(result==SAM_Message_Types::FAILED){
-        qWarning()<<"File\t"<<__FILE__<<endl
-                 <<"Line:\t"<<__LINE__<<endl
-                <<"Function:\t"<<"CCore::slotNamingReplyRecived"<<endl
-               <<"Message:\t"<<"slotNamingReplyRecived\nSAM_Message_Types::FAILED"<<endl
-              <<"Name:\t"<<Name<<endl
-             <<"Value:\t"<<Value<<endl
-            <<"Message:\t"<<Message<<endl;
+        qWarning()<<"File\t"<<__FILE__<<Qt::endl
+                 <<"Line:\t"<<__LINE__<<Qt::endl
+                <<"Function:\t"<<"CCore::slotNamingReplyRecived"<<Qt::endl
+               <<"Message:\t"<<"slotNamingReplyRecived\nSAM_Message_Types::FAILED"<<Qt::endl
+              <<"Name:\t"<<Name<<Qt::endl
+             <<"Value:\t"<<Value<<Qt::endl
+            <<"Message:\t"<<Message<<Qt::endl;
     }
 
 }
@@ -757,7 +757,7 @@ void CCore::loadUserInfos()
         QString randomString;
         for(int i=0; i<randomStringLength; ++i)
         {
-            int index = qrand() % possibleCharacters.length();
+            int index = rand() % possibleCharacters.length();
             QChar nextChar = possibleCharacters.at(index);
             randomString.append(nextChar);
         }
@@ -840,22 +840,22 @@ const QString CCore::getMyDestinationB32() const
 void CCore::setMyDestinationB32(QString B32Dest)
 {
     if(mMyDestinationB32==B32Dest) return;
-    
+
     if(!B32Dest.right(8).contains(".b32.i2p",Qt::CaseInsensitive)){
-        qCritical()<<"File\t"<<__FILE__<<endl
-                  <<"Line:\t"<<__LINE__<<endl
-                 <<"Function:\t"<<"CCore::setMyDestinationB32"<<endl
-                <<"Message:\t" <<"the last 8 char must be .b32.i2p"<<endl
-               <<"\tDestination:\n"<<B32Dest<<endl
-              <<"\tAction apported"<<endl;
+        qCritical()<<"File\t"<<__FILE__<<Qt::endl
+                  <<"Line:\t"<<__LINE__<<Qt::endl
+                 <<"Function:\t"<<"CCore::setMyDestinationB32"<<Qt::endl
+                <<"Message:\t" <<"the last 8 char must be .b32.i2p"<<Qt::endl
+               <<"\tDestination:\n"<<B32Dest<<Qt::endl
+              <<"\tAction apported"<<Qt::endl;
     }
-    
+
     QSettings settings(mConfigPath+"/application.ini",QSettings::IniFormat);
     settings.beginGroup("Network");
     settings.setValue("MyDestinationB32",B32Dest);
     settings.endGroup();
     settings.sync();
-    
+
     mMyDestinationB32=B32Dest;
 }
 

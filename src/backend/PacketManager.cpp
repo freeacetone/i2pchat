@@ -30,71 +30,71 @@ using namespace std;
 CPacketManager::CPacketManager (CConnectionManager& ConnectionManager,qint32 ID )
 :mConnectionManager(ConnectionManager),mID(ID)
 {
-	mData= new QByteArray();
+    mData= new QByteArray();
 }
 
-CPacketManager::~CPacketManager() 
+CPacketManager::~CPacketManager()
 {
-	delete mData;
-	mData=NULL;
-	
+    delete mData;
+    mData=NULL;
+
 }
 
 void CPacketManager::operator << (const QByteArray t )
 {
-	if(mData!=NULL){
-	    mData->append ( t );
-	    checkifOnePacketIsCompleate();
-	}
+    if(mData!=NULL){
+        mData->append ( t );
+        checkifOnePacketIsCompleate();
+    }
 }
 
 void  CPacketManager::checkifOnePacketIsCompleate()
-{		
-	    if(mData==NULL){
-	      return;
-	    }
-  
-	    if (mData!=NULL && mData->length() >=8 )
-	    {
-		    QString sPacketLength=mData->mid ( 0,4 );
-		    
+{
+        if(mData==NULL){
+          return;
+        }
 
-		    bool OK=false;
-		    int iPacketLength =sPacketLength.toInt ( &OK,16 );
-		    if(OK==false)
-		    {
-			    qCritical()<<"File\t"<<__FILE__<<endl
-				       <<"Line:\t"<<__LINE__<<endl
-				       <<"Function:\t"<<"CPacketManager::checkifOnePacketIsCompleate"<<endl
-				       <<"Message:\t"<<"cant parse PacketLength"<<endl
-				       <<"StreamID: "<<mID<<endl
-				       <<"sPacketLength: "<<sPacketLength<<endl;
-
-			    CI2PStream* stream=mConnectionManager.getStreamObjectByID(mID);
-			    if(stream!=NULL){
-				    stream->doDisconnect();
-			    }
+        if (mData!=NULL && mData->length() >=8 )
+        {
+            QString sPacketLength=mData->mid ( 0,4 );
 
 
-		    }
+            bool OK=false;
+            int iPacketLength =sPacketLength.toInt ( &OK,16 );
+            if(OK==false)
+            {
+                qCritical()<<"File\t"<<__FILE__<<"\n"
+                       <<"Line:\t"<<__LINE__<<"\n"
+                       <<"Function:\t"<<"CPacketManager::checkifOnePacketIsCompleate"<<"\n"
+                       <<"Message:\t"<<"cant parse PacketLength"<<"\n"
+                       <<"StreamID: "<<mID<<"\n"
+                       <<"sPacketLength: "<<sPacketLength<<"\n";
 
-		    if (mData!=NULL && mData->length() >=iPacketLength+4 )
-		    {
-			    QByteArray CurrentPacket (mData->mid ( 4 ),iPacketLength );
-			    mData->remove ( 0,iPacketLength+4 );
-			    
-			    emit signAPacketIsCompleate ( mID,CurrentPacket );
-			    checkifOnePacketIsCompleate();
-		    }
-	    }
-	return;
+                CI2PStream* stream=mConnectionManager.getStreamObjectByID(mID);
+                if(stream!=NULL){
+                    stream->doDisconnect();
+                }
+
+
+            }
+
+            if (mData!=NULL && mData->length() >=iPacketLength+4 )
+            {
+                QByteArray CurrentPacket (mData->mid ( 4 ),iPacketLength );
+                mData->remove ( 0,iPacketLength+4 );
+
+                emit signAPacketIsCompleate ( mID,CurrentPacket );
+                checkifOnePacketIsCompleate();
+            }
+        }
+    return;
 }
 
 void CPacketManager::slotDataInput(qint32 ID,QByteArray t)
-{ 
-	if(ID==this->mID)
-	{
-		*(this)<<t;
-	}
+{
+    if(ID==this->mID)
+    {
+        *(this)<<t;
+    }
 }
 

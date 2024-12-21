@@ -22,82 +22,115 @@
 CSoundManager::CSoundManager(QString ConfigPath)
 :mConfigPath(ConfigPath)
 {
-	mIsMute=false;
-	reInit();
+    mIsMute=false;
+    reInit();
 }
 
 void CSoundManager::doMute(bool t)
 {
-	mIsMute=t;
+    mIsMute=t;
 }
 
 void CSoundManager::slotUserGoOnline()
 {
-	if(mIsMute==true) return;
-		
-		if(mEnable_eventUser_go_Online) 
-			QSound::play(mSoundFileUser_go_Online);
+    if(mIsMute==true) return;
+
+    if(mEnable_eventUser_go_Online)
+    {
+        mMediaPlayer.setSource(mSoundFileUser_go_Online);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 void CSoundManager::slotUserGoOffline()
 {
-	if(mIsMute==true) return;
-	if(mEnable_eventUser_go_Offline)
-		QSound::play(mSoundFileUser_go_Offline);	
+    if(mIsMute==true) return;
+    if(mEnable_eventUser_go_Offline)
+    {
+        mMediaPlayer.setSource(mSoundFileUser_go_Offline);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 void CSoundManager::slotFileSendFinished()
 {
-	if(mIsMute==true) return;
-	if(mEnable_eventFileSend_Finished)
-		QSound::play(mSoundFileFileSend_Finished);
+    if(mIsMute==true) return;
+    if(mEnable_eventFileSend_Finished)
+    {
+        mMediaPlayer.setSource(mSoundFileFileSend_Finished);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 void CSoundManager::slotFileReciveIncoming()
 {
-	if(mIsMute==true) return;
-	if(mEnable_eventFileRecive_Incoming)
-		QSound::play(mSoundFileFileRecive_Incoming);
+    if(mIsMute==true) return;
+    if(mEnable_eventFileRecive_Incoming)
+    {
+        mMediaPlayer.setSource(mSoundFileFileRecive_Incoming);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 
 void CSoundManager::slotFileReciveFinished()
 {
-	if(mIsMute==true) return;
-	if(mEnable_eventFileRecive_Finished)
-		QSound::play(mSoundFileFileRecive_Finished);
+    if(mIsMute==true) return;
+    if(mEnable_eventFileRecive_Finished)
+    {
+        mMediaPlayer.setSource(mSoundFileFileRecive_Finished);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 
 
 void CSoundManager::slotNewChatMessage()
 {
-	if(mIsMute==true) return;
-	if(mEnable_eventNewChatMessage)
-	{
-		QSound::play(mSoundFileNewChatMessage);
-
-	}
+    if(mIsMute==true) return;
+    if(mEnable_eventNewChatMessage)
+    {
+        mMediaPlayer.setSource(mSoundFileNewChatMessage);
+        if (mMediaPlayer.mediaStatus() == QMediaPlayer::LoadedMedia)
+        {
+            mMediaPlayer.play();
+        }
+    }
 }
 
 void CSoundManager::reInit()
 {
-	QSettings settings(mConfigPath+"/application.ini",QSettings::IniFormat);
-	settings.beginGroup("Sound");
-		settings.beginGroup("Enable");
-			mEnable_eventUser_go_Online	=settings.value("User_go_Online",true)		.toBool();
-			mEnable_eventUser_go_Offline	=settings.value("User_go_Offline",false)	.toBool();
-			mEnable_eventFileSend_Finished	=settings.value("FileSend_Finished",false)	.toBool();
-			mEnable_eventFileRecive_Incoming=settings.value("FileRecive_Incoming",true)	.toBool();
-			mEnable_eventFileRecive_Finished=settings.value("FileRecive_Finished",false)	.toBool();
-			mEnable_eventNewChatMessage	=settings.value("NewChatMessage",true)		.toBool();
-		settings.endGroup();
+    QSettings settings(mConfigPath+"/application.ini",QSettings::IniFormat);
+    settings.beginGroup("Sound");
+        settings.beginGroup("Enable");
+            mEnable_eventUser_go_Online	=settings.value("User_go_Online",true)		.toBool();
+            mEnable_eventUser_go_Offline	=settings.value("User_go_Offline",false)	.toBool();
+            mEnable_eventFileSend_Finished	=settings.value("FileSend_Finished",false)	.toBool();
+            mEnable_eventFileRecive_Incoming=settings.value("FileRecive_Incoming",true)	.toBool();
+            mEnable_eventFileRecive_Finished=settings.value("FileRecive_Finished",false)	.toBool();
+            mEnable_eventNewChatMessage	=settings.value("NewChatMessage",true)		.toBool();
+        settings.endGroup();
 
-		settings.beginGroup("SoundFilePath");
-			mSoundFileUser_go_Online	=settings.value("User_go_Online","./sounds/Startup.wav").toString();
-			mSoundFileUser_go_Offline	=settings.value("User_go_Offline","")			.toString();
-			mSoundFileFileSend_Finished	=settings.value("FileSend_Finished","")			.toString();
-			mSoundFileFileRecive_Incoming	=settings.value("FileRecive_Incoming","./sounds/File.wav").toString();
-			mSoundFileFileRecive_Finished	=settings.value("FileRecive_Finished","")		.toString();
-			mSoundFileNewChatMessage	=settings.value("NewChatMessage","./sounds/Notify.wav")	.toString();
-		settings.endGroup();
-	settings.endGroup();
-	settings.sync();
+        settings.beginGroup("SoundFilePath");
+            mSoundFileUser_go_Online	=settings.value("User_go_Online","./sounds/Startup.wav").toString();
+            mSoundFileUser_go_Offline	=settings.value("User_go_Offline","")			.toString();
+            mSoundFileFileSend_Finished	=settings.value("FileSend_Finished","")			.toString();
+            mSoundFileFileRecive_Incoming	=settings.value("FileRecive_Incoming","./sounds/File.wav").toString();
+            mSoundFileFileRecive_Finished	=settings.value("FileRecive_Finished","")		.toString();
+            mSoundFileNewChatMessage	=settings.value("NewChatMessage","./sounds/Notify.wav")	.toString();
+        settings.endGroup();
+    settings.endGroup();
+    settings.sync();
 }
 
 CSoundManager::~ CSoundManager()

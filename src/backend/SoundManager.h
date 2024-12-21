@@ -19,51 +19,53 @@
  ***************************************************************************/
 #ifndef SOUND_MANAGER_H
 #define SOUND_MANAGER_H
- 
-#include <QSound>
+
+#include <QMediaPlayer>
 #include <QSettings>
 #include <QtGui>
 
 
 class CSoundManager :public QObject
 {
-	Q_OBJECT
-	public:
-		CSoundManager(QString ConfigPath);
-		~CSoundManager();
+    Q_OBJECT
+    public:
+        CSoundManager(QString ConfigPath);
+        ~CSoundManager();
 
-		//forbid some operators
-		CSoundManager(const CSoundManager&)=delete;
-		CSoundManager& operator=(const CSoundManager&)=delete;
+        //forbid some operators
+        CSoundManager(const CSoundManager&)=delete;
+        CSoundManager& operator=(const CSoundManager&)=delete;
 
-		void reInit();
-		void doMute(bool t);
-	public slots:
-		
-		void slotUserGoOnline();
-		void slotUserGoOffline();
-		void slotFileSendFinished();
-		void slotFileReciveIncoming();
-		void slotFileReciveFinished();
-		void slotNewChatMessage();
-		
-		
+        void reInit();
+        void doMute(bool t);
+    public slots:
 
-	private:
-		bool 	mIsMute;
-		QString mSoundFileUser_go_Online;
-		QString mSoundFileUser_go_Offline;
-		QString mSoundFileFileSend_Finished;
-		QString mSoundFileFileRecive_Incoming;
-		QString mSoundFileFileRecive_Finished;
-		QString mSoundFileNewChatMessage;
-	const 	QString mConfigPath;
+        void slotUserGoOnline();
+        void slotUserGoOffline();
+        void slotFileSendFinished();
+        void slotFileReciveIncoming();
+        void slotFileReciveFinished();
+        void slotNewChatMessage();
 
-		bool mEnable_eventUser_go_Online;
-		bool mEnable_eventUser_go_Offline;
-		bool mEnable_eventFileSend_Finished;
-		bool mEnable_eventFileRecive_Incoming;
-		bool mEnable_eventFileRecive_Finished;
-		bool mEnable_eventNewChatMessage;
+
+
+    private:
+        bool 	mIsMute;
+        QString mSoundFileUser_go_Online;
+        QString mSoundFileUser_go_Offline;
+        QString mSoundFileFileSend_Finished;
+        QString mSoundFileFileRecive_Incoming;
+        QString mSoundFileFileRecive_Finished;
+        QString mSoundFileNewChatMessage;
+    const 	QString mConfigPath;
+
+        bool mEnable_eventUser_go_Online;
+        bool mEnable_eventUser_go_Offline;
+        bool mEnable_eventFileSend_Finished;
+        bool mEnable_eventFileRecive_Incoming;
+        bool mEnable_eventFileRecive_Finished;
+        bool mEnable_eventNewChatMessage;
+
+        QMediaPlayer mMediaPlayer;
 };
 #endif

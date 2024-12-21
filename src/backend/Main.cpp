@@ -37,8 +37,8 @@ void enableDebugLogging(QString configPath);
 void myMessageHandler(QtMsgType type,const QMessageLogContext &context,const QString &msg);
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
-	QString configPath;
+    QApplication app(argc, argv);
+    QString configPath;
 #ifdef ANDROID
     QStringList loc = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     if(loc.size()<=0){
@@ -81,57 +81,57 @@ int main(int argc, char *argv[])
     }
     */
 #else
-	configPath=QApplication::applicationDirPath();
-	if(QFile::exists(configPath+"/UseHomeForConfigStore")==true){
-		QStringList tmp=QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
-		if(tmp.size()>=1){
-			configPath=tmp.at(0);
-			configPath+="/.I2P-Messenger";
-		}
-	}
+    configPath=QApplication::applicationDirPath();
+    if(QFile::exists(configPath+"/UseHomeForConfigStore")==true){
+        QStringList tmp=QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+        if(tmp.size()>=1){
+            configPath=tmp.at(0);
+            configPath+="/.I2P-Messenger";
+        }
+    }
 #endif
-	enableDebugLogging(configPath);
-	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    enableDebugLogging(configPath);
+    // QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     form_MainWindow* mainForm= new form_MainWindow(configPath);
-	mainForm->show();
+    mainForm->show();
         app.exec();
-	app.closeAllWindows();
+    app.closeAllWindows();
 
-	return 0;
+    return 0;
 }
 
 void enableDebugLogging(QString configPath)
 {
-	//is DebugPrint = enabled ?
+    //is DebugPrint = enabled ?
     debugLogDir=configPath;
-	QSettings settings(configPath+"/application.ini",QSettings::IniFormat);
-	settings.beginGroup("General");
-	  if(settings.value("DebugLogging","true").toBool()==true){
+    QSettings settings(configPath+"/application.ini",QSettings::IniFormat);
+    settings.beginGroup("General");
+      if(settings.value("DebugLogging","true").toBool()==true){
           qInstallMessageHandler(myMessageHandler);
-	  }
-	settings.endGroup();
-	settings.sync();
+      }
+    settings.endGroup();
+    settings.sync();
 }
 
 void myMessageHandler(QtMsgType type,const QMessageLogContext &context,const QString &msg)
 {
-	QString txt;
-	
-	txt.append(QTime::currentTime().toString("hh:mm:ss"));
-	
-	switch (type) {
-	case QtDebugMsg:{
-		txt.append(QString(" Debug: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
-		break;
-	}
-	case QtWarningMsg:{
-		txt.append(QString(" Warning: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
-		break;
-	}
-	case QtCriticalMsg:{
-		txt.append(QString(" Critical: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
-		break;
-	}
+    QString txt;
+
+    txt.append(QTime::currentTime().toString("hh:mm:ss"));
+
+    switch (type) {
+    case QtDebugMsg:{
+        txt.append(QString(" Debug: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
+        break;
+    }
+    case QtWarningMsg:{
+        txt.append(QString(" Warning: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
+        break;
+    }
+    case QtCriticalMsg:{
+        txt.append(QString(" Critical: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
+        break;
+    }
     case QtFatalMsg:{
         txt.append(QString(" Fatal: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function));
         break;
@@ -142,7 +142,7 @@ void myMessageHandler(QtMsgType type,const QMessageLogContext &context,const QSt
     }
     }
     QFile outFile(debugLogDir+"/DebugLog.txt");
-	outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-	QTextStream ts(&outFile);
-	ts << txt << endl;
+    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+    QTextStream ts(&outFile);
+    ts << txt << Qt::endl;
 }

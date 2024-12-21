@@ -144,11 +144,11 @@ void CSessionController::slotReadFromSocket()
                     msgBox.setWindowModality(Qt::NonModal);
                     msgBox.exec();
 
-                    qCritical()<<"File\t"<<__FILE__<<endl
-                              <<"Line:\t"<<__LINE__<<endl
-                             <<"Function:\t"<<"CStreamController::slotReadFromSocket()"<<endl
-                            <<"Message:\t"<<"Session: DUPLICATED_DEST"<<endl
-                           <<"Only one Messenger per Destination,\nor SAMv3 crashed(Tunnel stay if Messenger were closed"<<endl;
+                    qCritical()<<"File\t"<<__FILE__<<Qt::endl
+                              <<"Line:\t"<<__LINE__<<Qt::endl
+                             <<"Function:\t"<<"CStreamController::slotReadFromSocket()"<<Qt::endl
+                            <<"Message:\t"<<"Session: DUPLICATED_DEST"<<Qt::endl
+                           <<"Only one Messenger per Destination,\nor SAMv3 crashed(Tunnel stay if Messenger were closed"<<Qt::endl;
                 }
 
 
@@ -218,11 +218,11 @@ void CSessionController::doDisconnect()
 }
 
 void CSessionController::doNamingLookUP(QString Name)
-{	
+{
     ConnectionReadyCheck();
 
     QByteArray Message="NAMING LOOKUP NAME=";
-    Message+=Name+"\n";
+    Message+=Name.toUtf8()+"\n";
     emit signDebugMessages(Message);
     mTcpSocket.write(Message);
     mTcpSocket.flush();
@@ -234,10 +234,10 @@ void CSessionController::doSessionCreate()
     ConnectionReadyCheck();
 
     QByteArray Message="SESSION CREATE STYLE=STREAM ID=";
-    Message+=mBridgeName+" DESTINATION="+mSamPrivKey;
+    Message+=mBridgeName.toUtf8()+" DESTINATION="+mSamPrivKey.toUtf8();
 
     if(mSessionOptions.isEmpty()==false){
-        Message+=" "+mSessionOptions;
+        Message+=" "+mSessionOptions.toUtf8();
     }
 
     Message+="\n";
@@ -252,7 +252,7 @@ void CSessionController::doDestGenerate(const QString Options)
     ConnectionReadyCheck();
     QByteArray Message="DEST GENERATE ";
     if(Options.isEmpty()==false){
-        Message+=Options;
+        Message+=Options.toUtf8();
     }
     Message+="\n";
 

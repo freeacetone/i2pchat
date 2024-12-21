@@ -48,37 +48,37 @@ class CTextEmotionChanger
   public:
     enum HtmlState
     {
-	OutsideHtml = 0,
-	FirstTag,
-	TagText,
-	SecondTag
+    OutsideHtml = 0,
+    FirstTag,
+    TagText,
+    SecondTag
     };
-    
+
    static CTextEmotionChanger* exemplar();
    ~CTextEmotionChanger();
-   
+
    //forbid some operators
    CTextEmotionChanger& operator=(const CTextEmotionChanger&)=delete;
 
-   	QHash<QString,QStringList> getEmoticonsList()const { return m_emoticon_list; }
-	void checkMessageForEmoticons(QString &message);
-	static bool lengthLessThan(const QString &s1, const QString &s2);
-	QString getEmoticonsPath()const { return m_dir_path; }
-   
+    QHash<QString,QStringList> getEmoticonsList()const { return m_emoticon_list; }
+    void checkMessageForEmoticons(QString &message);
+    static bool lengthLessThan(const QString &s1, const QString &s2);
+    QString getEmoticonsPath()const { return m_dir_path; }
+
   private:
-	static CTextEmotionChanger* instanz;
-	CTextEmotionChanger();
-	CTextEmotionChanger(const CTextEmotionChanger&);
-	void setEmoticonPath(const QString &path);
-	void appendEmoticon(QString &text, const QString &url, const QStringRef &emo) const;
-	bool compareEmoticon(const QChar *c, const QString &smile) const;
-	
-	QString m_profile_name;
-	QString m_emoticons_path;
-	QHash<QString, QStringList> m_emoticon_list;
-	QHash<QString, QString> m_urls;
-	QList<QPair<QString,QString> > m_emoticons;
-	QString m_dir_path;
-	bool m_check_space;
+    static CTextEmotionChanger* instanz;
+    CTextEmotionChanger();
+    CTextEmotionChanger(const CTextEmotionChanger&);
+    void setEmoticonPath(const QString &path);
+    void appendEmoticon(QString &text, const QString &url, const QStringView &emo) const;
+    bool compareEmoticon(const QChar *c, const QString &smile) const;
+
+    QString m_profile_name;
+    QString m_emoticons_path;
+    QHash<QString, QStringList> m_emoticon_list;
+    QHash<QString, QString> m_urls;
+    QList<QPair<QString,QString> > m_emoticons;
+    QString m_dir_path;
+    bool m_check_space;
 };
 #endif

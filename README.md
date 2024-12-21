@@ -1,9 +1,6 @@
-# Pigmy, Big Brother watches for you!
-
-# Be a Free Giant - use a local `i2pchat` app!
-
-
 # I2PChat
+
+*Mammoth shit to make a secure chat with anon number 2.5*.
 
 ## Screenshots
 
@@ -12,7 +9,7 @@
 
 ## Features
 
- * The communication goes «directly over i2p» from client to client, no server is required.[1] Note: The connections to the so-called «seedless» servers were removed from this project ; see : https://github.com/nonlin-lin-chaos-order-etc-etal/i2pchat/issues/40 . —hypn.
+ * The communication goes «directly over i2p» from client to client, no server is required.
  
 ## How to run it
 
@@ -22,7 +19,7 @@ You need to enable SAM in your router on <a href="http://127.0.0.1:7657/configcl
 
 ### Project status
 
-Now the development was resumed by Hypnosis-i2p and R4SAS, with a lot more folks as testers &amp; bugs+issues reporters.
+`2024 Dec`: Acetone made changes to make the project build on Qt6 (did not make changes for platform-dependent code not related to Linux).
 
 ### Current news
 
@@ -38,48 +35,15 @@ The license of this software is GPLv2.
 
 ### Build instructions
 
- * Install prerequisites:
+**Qt6**
 ```
-sudo apt-get install qt5-qmake qt5-default build-essential libqt5multimedia5 qtmultimedia5-dev
-```
- * Run qmake for either release:
-```
-qmake I2P-Messenger.pro "CONFIG += release"
-```
-or for debug:
-```
-qmake I2P-Messenger.pro "CONFIG += debug"
-```
- * And after that,
-```
-make -j NUMBER_OF_PROCESSOR_CORES
-```
-or simply
-```
-make
+sudo apt-get install git qt6-base-dev qt6-multimedia-dev build-essential
+git clone https://github.com/freeacetone/i2pchat
+cd i2pchat
+qmake6 && make
 ```
 
 ## Running
 
 On Linux, `make` creates `I2P-Messenger` executable in the current folder. Run it with `./I2P-Messenger`. When ran, switch yourself to online. It will generate your Destination address (a key) on first connect to SAM.
 
-## Old files and sites
-
- * http://echelon.i2p/qti2pmessenger/macos → Mac OS X versions, not tested;
- * http://echelon.i2p/qti2pmessenger/ → old eche|on's site for I2P Chat (versions up to 0.2.24);
- * https://launchpad.net/~i2p.packages/+archive/ubuntu/i2p/+sourcepub/4824794/+listing-archive-extra → Kill Your TV's PPA (v.0.2.25).
- * http://git.repo.i2p/w/I2P-Messenger-QT.git/shortlog → original repo (fully merged into this /i2pchat)
- 
-## Forum thread (English)
-
-http://forum.i2p/viewtopic.php?t=2474
-
-## List of relevant repositories (in Russian)
- 
-я два репа на гитхабе создал
- * один для антиквариата по части и2п массажника https://github.com/nonlin-lin-chaos-order-etc-etal/I2PQtMessengerLegacy ;
- * другой для разработки https://github.com/i2pchat/i2pchat .
-
-## Footnotes
-
-[1] http://forum.i2p/viewtopic.php?p=11071#11071
